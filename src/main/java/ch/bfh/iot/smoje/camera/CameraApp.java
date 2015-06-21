@@ -22,13 +22,22 @@ import com.google.gdata.util.ServiceException;
 
 public class CameraApp {
 
+    private static final String BROKER_URL = "tcp://smoje.ch:1883";
+    private static final String TOPIC = "selfie/klatsch";
+
+    private static final String PATH_PICS = "/home/pi/smoje/cam/";
+
+    private static final String GOOGLE_ACCOUNT = "bfh.smoje@gmail.com";
+    private static final String GOOGLE_APP_PW = "****************";
+    private static final String ALBUM_URL = "https://picasaweb.google.com/data/feed/api/user/103101320690017782948/albumid/6162854171600714593";
+
     public static void main(String[] args) throws MqttException {
 
         new CameraApp().start();
     }
 
     private void start() throws MqttException {
-        MqttClient mqttClient = new MqttClient("tcp://smoje.ch:1883", "SelfieSmojeCam");
+        MqttClient mqttClient = new MqttClient(BROKER_URL, "SelfieSmojeCam");
         mqttClient.connect();
         mqttClient.setCallback(new MqttCallback() {
 
@@ -51,16 +60,15 @@ public class CameraApp {
             }
         });
 
-        mqttClient.subscribe("selfie/klatsch");
+        mqttClient.subscribe(TOPIC);
 
     }
 
     private File takePhoto() {
-        String pathname = "/home/pi/smoje/cam/";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String filename = df.format(new Date()) + ".jpg";
 
-        String cmd = "fswebcam -r 1920x1080 --no-banner " + pathname + filename;
+        String cmd = "fswebcam -r 1920x1080 --no-banner " + PATH_PICS + filename;
         try {
             Process process = Runtime.getRuntime().exec(cmd);
             process.waitFor();
@@ -68,20 +76,20 @@ public class CameraApp {
             e.printStackTrace();
             return null;
         }
-        return new File(pathname + filename);
+        return new File(PATH_PICS + filename);
     }
 
     private void uploadPhoto(File photo) {
         PicasawebService service = new PicasawebService("bfh-SelfieSmoje");
         try {
-            service.setUserCredentials("bfh.smoje@gmail.com", "****************");
+            service.setUserCredentials(GOOGLE_ACCOUNT, GOOGLE_APP_PW);
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
         
         URL albumPostUrl = null;
         try {
-            albumPostUrl = new URL("https://picasaweb.google.com/data/feed/api/user/103101320690017782948/albumid/6162854171600714593");
+            albumPostUrl = new URL(ALBUM_URL);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
