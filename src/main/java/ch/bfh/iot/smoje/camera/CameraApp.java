@@ -56,8 +56,7 @@ public class CameraApp {
     }
 
     private File takePhoto() {
-//        String pathname = "/home/pi/smoje/cam/";
-        String pathname = "/home/adrian/pi/";
+        String pathname = "/home/pi/smoje/cam/";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String filename = df.format(new Date()) + ".jpg";
 
@@ -75,15 +74,14 @@ public class CameraApp {
     private void uploadPhoto(File photo) {
         PicasawebService service = new PicasawebService("bfh-SelfieSmoje");
         try {
-            service.setUserCredentials("baertschi.adrian@gmail.com", "rthrdgrlimkgluah");
+            service.setUserCredentials("bfh.smoje@gmail.com", "****************");
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
         
         URL albumPostUrl = null;
         try {
-            albumPostUrl = new URL("https://picasaweb.google.com/data/feed/api/user/109802042458700177651/albumid/6162378741581285969");
-            // old:                 https://picasaweb.google.com/data/feed/api/user/109802042458700177651/albumid/6130961662863629409
+            albumPostUrl = new URL("https://picasaweb.google.com/data/feed/api/user/103101320690017782948/albumid/6162854171600714593");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
