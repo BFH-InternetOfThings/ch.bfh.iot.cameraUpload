@@ -57,11 +57,7 @@
 			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.gdata</groupId>
-			<artifactId>core</artifactId>
-			<version>1.47.1</version>
-		</dependency>
+
 	</dependencies>
 
 </project>
