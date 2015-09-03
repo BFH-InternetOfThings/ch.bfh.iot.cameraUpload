@@ -64,7 +64,7 @@ public class CameraApp {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String filename = df.format(new Date()) + ".jpg";
 
-        String cmd = "fswebcam -r 1920x1080 --no-banner " + PATH_PICS + filename;
+        String cmd = "fswebcam -r 1280x720 --no-banner " + PATH_PICS + filename; // logitech camera git nid meh aus 1280x720 her u no das recht mies
         try {
             Process process = Runtime.getRuntime().exec(cmd);
             process.waitFor();
